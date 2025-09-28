@@ -13,3 +13,4 @@ gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -We
 - Change code accordingly for N bodies (malloc)
 - Add user interface for adding new bodies (raygui)
 - Add grid (represent space) + warp?
+- Add trail and bloom
