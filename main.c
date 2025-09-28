@@ -1,7 +1,6 @@
 #include "definitions.h"
 
 int main(void) {
-    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "N-Body Simulation");
     SetTargetFPS(60);
 
@@ -11,16 +10,16 @@ int main(void) {
         .velocity = {.x = 0, .y = 0},
         .acceleration = {.x = 0, .y = 0},
         .radius = 63,
-        .mass = 5.9722e13,
+        .mass = 8.948e16,
         .color = BLUE
     };
     // Moon-like
     struct body b1 = {
-        .center = {.x = b0.center.x - 384, .y = b0.center.y - 384},
-        .velocity = {.x = 74.15, .y = -74.15},
+        .center = {.x = b0.center.x - 200, .y = b0.center.y},
+        .velocity = {.x = 0, .y = -170.15},
         .acceleration = {.x = 0, .y = 0},
         .radius = 17,
-        .mass = 8.1e7,
+        .mass = 1.213e11,
         .color = RAYWHITE
     };
 
@@ -53,6 +52,7 @@ int main(void) {
 
         draw_body(&b0);
         draw_body(&b1);
+        DrawLine(b1.center.x, b1.center.y, b1.center.x + b1.velocity.x, b1.center.y + b1.velocity.y, RED);
 
         EndDrawing();
     }

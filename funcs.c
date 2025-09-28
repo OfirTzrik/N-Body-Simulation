@@ -22,7 +22,6 @@ void calc_grav_force(struct body *b0, struct body *b1) {
         .x = dir_vector.x / distance,
         .y = dir_vector.y / distance
     };
-
     struct vec2 force = {
         .x = GRAV_CONSTANT * (b0->mass * b1->mass / (distance * distance)) * unit_vector.x,
         .y = GRAV_CONSTANT * (b0->mass * b1->mass / (distance * distance)) * unit_vector.y,
@@ -30,10 +29,6 @@ void calc_grav_force(struct body *b0, struct body *b1) {
 
     b0->acceleration.x += force.x / b0->mass;
     b0->acceleration.y += force.y / b0->mass;
-
     b1->acceleration.x += -force.x / b1->mass;
     b1->acceleration.y += -force.y / b1->mass;
-
-    printf("b0 accel = (%f, %f), b1 accel = (%f, %f)\n", b0->acceleration.x, b0->acceleration.y, b1->acceleration.x, b1->acceleration.y);
-
 }

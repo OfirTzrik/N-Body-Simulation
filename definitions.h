@@ -6,9 +6,9 @@
 #include <stdint.h>
 #include "raylib.h"
 
-#define WINDOW_WIDTH 1440
-#define WINDOW_HEIGHT 920
-#define GRAV_CONSTANT 1e-7
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+#define GRAV_CONSTANT 6.6743e-11
 
 struct vec2 {
     double x;
