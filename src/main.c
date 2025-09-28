@@ -63,6 +63,7 @@ int main(void) {
 
         BeginDrawing();
         ClearBackground(BLACK);
+        DrawFPS(10, 10);
 
         draw_body(&b0);
         draw_body(&b1);
