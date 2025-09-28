@@ -6,9 +6,10 @@
 #include <stdint.h>
 #include "raylib.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1440
+#define WINDOW_HEIGHT 900
 #define GRAV_CONSTANT 6.6743e-11
+#define METERS_PER_PIXEL 1e6
 
 struct vec2 {
     double x;
@@ -19,7 +20,7 @@ struct body {
     struct vec2 center;
     struct vec2 velocity;
     struct vec2 acceleration;
-    int16_t radius;
+    double radius;
     double mass;
     Color color;
 };

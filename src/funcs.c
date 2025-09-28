@@ -1,12 +1,12 @@
-#include "definitions.h"
+#include "../include/definitions.h"
 
 void draw_body(struct body *b) {
-    uint16_t resolution = 2.0 * PI * b->radius;
+    uint16_t resolution = 2.0 * PI * (b->radius);
 
     for (int i = 0; i < resolution; i++) {
         double angle = 2.0 * PI * ((double)i / resolution);
-        int16_t x = b->center.x + b->radius * cos(angle);
-        int16_t y = b->center.y + b->radius * sin(angle);
+        int16_t x = b->center.x + (b->radius) * cos(angle);
+        int16_t y = b->center.y + (b->radius) * sin(angle);
 
         DrawPixel(x, y, b->color);
     }
@@ -14,8 +14,8 @@ void draw_body(struct body *b) {
 
 void calc_grav_force(struct body *b0, struct body *b1) {
     struct vec2 dir_vector = {
-        .x = b1->center.x - b0->center.x,
-        .y = b1->center.y - b0->center.y
+        .x = (b1->center.x - b0->center.x) * METERS_PER_PIXEL,
+        .y = (b1->center.y - b0->center.y) * METERS_PER_PIXEL
     };
     double distance = sqrt(dir_vector.x * dir_vector.x + dir_vector.y * dir_vector.y + 0.01);
     struct vec2 unit_vector = {
