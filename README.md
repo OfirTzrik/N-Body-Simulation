@@ -17,3 +17,7 @@ gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -We
 - Switch to 3D?
 - Add grid (represent space) + warp?
 - Add trail and bloom
+
+## Current Progress
+
+![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/current_progress.png)
