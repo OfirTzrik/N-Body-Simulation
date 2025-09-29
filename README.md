@@ -1,5 +1,7 @@
 # N-Body-Simulation
 
+Using [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/raygui) to simulate interaction between different bodies.
+
 ## Demo
 
 ![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.gif)
