@@ -6,8 +6,8 @@
 #include <stdint.h>
 #include "raylib.h"
 
-#define WINDOW_WIDTH 1440
-#define WINDOW_HEIGHT 900
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 #define GRAV_CONSTANT 6.6743e-11
 #define METERS_PER_PIXEL 1e6
 
