@@ -14,6 +14,7 @@ gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -We
 ## Roadmap
 - Change code accordingly for N bodies (malloc) - In progress
 - Add user interface for adding new bodies (raygui) - In progress
+- Add body preview before adding it to the simulation - In progress
 - Switch to 3D?
 - Add grid (represent space) + warp?
 - Add trail and bloom
