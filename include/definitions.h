@@ -20,6 +20,7 @@ struct vec2 {
 };
 
 struct body {
+    int16_t identifier;
     struct vec2 center;
     struct vec2 velocity;
     struct vec2 acceleration;
@@ -27,6 +28,7 @@ struct body {
     double mass;
     bool is_static;
     Color color;
+    struct body *next;
 };
 
 void draw_body(struct body *b);
