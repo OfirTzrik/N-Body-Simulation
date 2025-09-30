@@ -6,7 +6,7 @@
 
 int main(void) {
     // Variables
-    struct body *bodies = malloc(sizeof(struct body) * 3);
+    struct body *bodies = malloc(sizeof(struct body) * 4); // Initial size of 4
 
     float sim_speed = 75;
     float posx_input = 714;
@@ -27,41 +27,43 @@ int main(void) {
     char mass_input_buffer[16] = "";
     char remove_input_buffer[4] = "";
     
+    size_t arr_cap = 4;
+    size_t arr_size = 0;
     int color_input = 0;
 
-    bodies[0] = (struct body){
-        .identifier = 286,
-        .center = {.x = WINDOW_WIDTH / 2.0 + 128, .y = WINDOW_HEIGHT / 2.0},
-        .velocity = {.x = 0.0, .y = 0.0},
-        .acceleration = {.x = 0.0, .y = 0.0},
-        .radius = 64.0,
-        .mass = 6.0e24,
-        .is_static = true,
-        .color = YELLOW,
-        .next = NULL
-    };
-    bodies[1] = (struct body){
-        .identifier = 837,
-        .center = {.x = bodies[0].center.x - 320.0, .y = bodies[0].center.y},
-        .velocity = {.x = 0.0, .y = -1.118674e3},
-        .acceleration = {.x = 0.0, .y = 0.0},
-        .radius = 20.0,
-        .mass = 8.0e23,
-        .is_static = false,
-        .color = BLUE,
-        .next = NULL
-    };
-    bodies[2] = (struct body){
-        .identifier = 194,
-        .center = {.x = bodies[1].center.x - 40.0, .y = bodies[1].center.y},
-        .velocity = {.x = 0.0, .y = -2.274035e3},
-        .acceleration = {.x = 0.0, .y = 0.0},
-        .radius = 6.0,
-        .mass = 2.0e21,
-        .is_static = false,
-        .color = GRAY,
-        .next = NULL
-    };
+    // bodies[0] = (struct body){
+    //     .identifier = 286,
+    //     .center = {.x = WINDOW_WIDTH / 2.0 + 128, .y = WINDOW_HEIGHT / 2.0},
+    //     .velocity = {.x = 0.0, .y = 0.0},
+    //     .acceleration = {.x = 0.0, .y = 0.0},
+    //     .radius = 64.0,
+    //     .mass = 6.0e24,
+    //     .is_static = true,
+    //     .color = YELLOW,
+    //     .next = NULL
+    // };
+    // bodies[1] = (struct body){
+    //     .identifier = 837,
+    //     .center = {.x = bodies[0].center.x - 320.0, .y = bodies[0].center.y},
+    //     .velocity = {.x = 0.0, .y = -1.118674e3},
+    //     .acceleration = {.x = 0.0, .y = 0.0},
+    //     .radius = 20.0,
+    //     .mass = 8.0e23,
+    //     .is_static = false,
+    //     .color = BLUE,
+    //     .next = NULL
+    // };
+    // bodies[2] = (struct body){
+    //     .identifier = 194,
+    //     .center = {.x = bodies[1].center.x - 40.0, .y = bodies[1].center.y},
+    //     .velocity = {.x = 0.0, .y = -2.274035e3},
+    //     .acceleration = {.x = 0.0, .y = 0.0},
+    //     .radius = 6.0,
+    //     .mass = 2.0e21,
+    //     .is_static = false,
+    //     .color = GRAY,
+    //     .next = NULL
+    // };
 
     // Window initialization
     SetConfigFlags(FLAG_MSAA_4X_HINT);
@@ -75,14 +77,14 @@ int main(void) {
         double dt = GetFrameTime() * 100 * sim_speed;
 
         // Zero for next time step
-        for (size_t i = 0; i < 3; i++) {
+        for (size_t i = 0; i < arr_size; i++) {
             (*(bodies + i)).acceleration.x = 0;
             (*(bodies + i)).acceleration.y = 0;
         }
 
         // Calculate gravitational force between every two bodies
-        for (size_t i = 0; i < 3; i++) {
-            for(size_t j = i; j < 3; j++) {
+        for (size_t i = 0; i < arr_size; i++) {
+            for(size_t j = i; j < arr_size; j++) {
                 if (i == j) {
                     continue;
                 }
@@ -90,13 +92,13 @@ int main(void) {
             }
         }
         // Update velocity with acceleration considering every two bodies
-        for (size_t i = 0; i < 3; i++) {
+        for (size_t i = 0; i < arr_size; i++) {
             (*(bodies + i)).velocity.x += (*(bodies + i)).acceleration.x * dt;
             (*(bodies + i)).velocity.y += (*(bodies + i)).acceleration.y * dt;
         }
 
         // Update position
-        for (size_t i = 1; i < 3; i++) {
+        for (size_t i = 0; i < arr_size; i++) {
             (*(bodies + i)).center.x += ((*(bodies + i)).velocity.x * dt) / METERS_PER_PIXEL;
             (*(bodies + i)).center.y += ((*(bodies + i)).velocity.y * dt) / METERS_PER_PIXEL;
         }
@@ -106,12 +108,12 @@ int main(void) {
         DrawFPS(WINDOW_WIDTH - 82, 10);
 
         // Draw bodies
-        for (size_t i = 0; i < 3; i++) {
+        for (size_t i = 0; i < arr_size; i++) {
             draw_body(bodies + i);
         }
 
         // Draw velocity vector
-        for(size_t i = 0; i < 3; i++) {
+        for(size_t i = 0; i < arr_size; i++) {
             if (!(*(bodies + i)).is_static) {
                 DrawLine((*(bodies + i)).center.x, (*(bodies + i)).center.y, (*(bodies + i)).center.x + (*(bodies + i)).velocity.x / 10, (*(bodies + i)).center.y + (*(bodies + i)).velocity.y / 10, RED);
             }
@@ -130,7 +132,7 @@ int main(void) {
             GuiSlider((Rectangle){92, 80, 168, 16}, "", "", &posx_input, 512, 1024);
 
             GuiLabel((Rectangle){24, 112, 64, 16}, "Center Y:");
-            GuiSlider((Rectangle){92, 112, 168, 16}, "", "", &posy_input, 512, 1024);
+            GuiSlider((Rectangle){92, 112, 168, 16}, "", "", &posy_input, 0, 1024);
 
             GuiLabel((Rectangle){24, 144, 128, 16}, "Velocity X:");
             if (GuiTextBox((Rectangle){100, 144, 160, 16}, velx_input_buffer, 16, velx_is_active)) {
@@ -157,7 +159,19 @@ int main(void) {
                 color_is_open = !color_is_open;
             }
             if (!color_is_open) {
-                GuiButton((Rectangle){24, 336, 240, 32}, "Add Body");
+                if(GuiButton((Rectangle){24, 336, 240, 32}, "Add Body") && arr_size < arr_cap) {
+                    bodies[arr_size++] = (struct body) {
+                        .identifier = 15,
+                        .center = {posx_input, posy_input},
+                        .velocity = {atof(velx_input_buffer), atof(vely_input_buffer)},
+                        .acceleration = {0, 0},
+                        .radius = radius_input,
+                        .mass = atof(mass_input_buffer),
+                        .is_static = false,
+                        .color = RED,
+                        .next = NULL
+                    };
+                }
             }
         }
 
