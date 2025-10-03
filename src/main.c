@@ -9,8 +9,8 @@ int main(void) {
     struct body *bodies = malloc(sizeof(struct body) * 4); // Initial size of 4
 
     float sim_speed = 75;
-    float posx_input = 714;
-    float posy_input = 605;
+    float posx_input = 750;
+    float posy_input = 340;
     float radius_input = 12;
     
     bool id_is_active = false;
@@ -129,10 +129,10 @@ int main(void) {
             }
 
             GuiLabel((Rectangle){24, 80, 64, 16}, "Center X:");
-            GuiSlider((Rectangle){92, 80, 168, 16}, "", "", &posx_input, 512, 1024);
+            GuiSlider((Rectangle){92, 80, 168, 16}, "", "", &posx_input, 300, 1240);
 
             GuiLabel((Rectangle){24, 112, 64, 16}, "Center Y:");
-            GuiSlider((Rectangle){92, 112, 168, 16}, "", "", &posy_input, 0, 1024);
+            GuiSlider((Rectangle){92, 112, 168, 16}, "", "", &posy_input, 40, 600);
 
             GuiLabel((Rectangle){24, 144, 128, 16}, "Velocity X:");
             if (GuiTextBox((Rectangle){100, 144, 160, 16}, velx_input_buffer, 16, velx_is_active)) {
@@ -190,6 +190,19 @@ int main(void) {
 
             GuiSlider((Rectangle){296, 680, WINDOW_WIDTH - 320, 16}, "", "", &sim_speed, 1, 500);
         }
+
+        struct body preview_body = {
+            .identifier = 999,
+            .center = {posx_input, posy_input},
+            .velocity = {atof(velx_input_buffer), atof(vely_input_buffer)},
+            .acceleration = {0, 0},
+            .radius = radius_input,
+            .mass = atof(mass_input_buffer),
+            .is_static = false,
+            .color = RED,
+            .next = NULL
+        };
+        draw_body(&preview_body);
 
         EndDrawing();
     }
