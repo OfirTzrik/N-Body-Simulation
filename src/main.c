@@ -124,7 +124,6 @@ int main(void) {
             if (GuiDropdownBox((Rectangle){72, 304, 188, 16}, "Gray;Gold;Orange;Pink;Maroon;Lime;Sky blue;Violet;Beige;Brown", &color_input, color_is_open)) {
                 color_is_open = !color_is_open;
             }
-            printf("%d\n", color_input);
             if (!color_is_open) {
                 if(GuiButton((Rectangle){24, 336, 240, 32}, "Add Body") && arr_size < arr_cap) {
                     bodies[arr_size++] = (struct body) {
