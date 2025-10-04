@@ -31,40 +31,6 @@ int main(void) {
     size_t arr_size = 0;
     int color_input = 0;
 
-    // bodies[0] = (struct body){
-    //     .identifier = 286,
-    //     .center = {.x = WINDOW_WIDTH / 2.0 + 128, .y = WINDOW_HEIGHT / 2.0},
-    //     .velocity = {.x = 0.0, .y = 0.0},
-    //     .acceleration = {.x = 0.0, .y = 0.0},
-    //     .radius = 64.0,
-    //     .mass = 6.0e24,
-    //     .is_static = true,
-    //     .color = YELLOW,
-    //     .next = NULL
-    // };
-    // bodies[1] = (struct body){
-    //     .identifier = 837,
-    //     .center = {.x = bodies[0].center.x - 320.0, .y = bodies[0].center.y},
-    //     .velocity = {.x = 0.0, .y = -1.118674e3},
-    //     .acceleration = {.x = 0.0, .y = 0.0},
-    //     .radius = 20.0,
-    //     .mass = 8.0e23,
-    //     .is_static = false,
-    //     .color = BLUE,
-    //     .next = NULL
-    // };
-    // bodies[2] = (struct body){
-    //     .identifier = 194,
-    //     .center = {.x = bodies[1].center.x - 40.0, .y = bodies[1].center.y},
-    //     .velocity = {.x = 0.0, .y = -2.274035e3},
-    //     .acceleration = {.x = 0.0, .y = 0.0},
-    //     .radius = 6.0,
-    //     .mass = 2.0e21,
-    //     .is_static = false,
-    //     .color = GRAY,
-    //     .next = NULL
-    // };
-
     // Window initialization
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "N-Body Simulation");
@@ -155,9 +121,10 @@ int main(void) {
             GuiCheckBox((Rectangle){92, 272, 168, 16}, "", &is_static);
 
             GuiLabel((Rectangle){24, 304, 64, 16}, "Color:");
-            if (GuiDropdownBox((Rectangle){72, 304, 188, 16}, "Red;Green;Blue;Yellow", &color_input, color_is_open)) {
+            if (GuiDropdownBox((Rectangle){72, 304, 188, 16}, "Gray;Gold;Orange;Pink;Maroon;Lime;Sky blue;Violet;Beige;Brown", &color_input, color_is_open)) {
                 color_is_open = !color_is_open;
             }
+            printf("%d\n", color_input);
             if (!color_is_open) {
                 if(GuiButton((Rectangle){24, 336, 240, 32}, "Add Body") && arr_size < arr_cap) {
                     bodies[arr_size++] = (struct body) {
@@ -168,7 +135,7 @@ int main(void) {
                         .radius = radius_input,
                         .mass = atof(mass_input_buffer),
                         .is_static = false,
-                        .color = RED,
+                        .color = color_select(color_input),
                         .next = NULL
                     };
                 }
@@ -188,7 +155,7 @@ int main(void) {
         {
             GuiPanel((Rectangle){288, 648, WINDOW_WIDTH - 304, 56}, "Simluation speed");
 
-            GuiSlider((Rectangle){296, 680, WINDOW_WIDTH - 320, 16}, "", "", &sim_speed, 1, 500);
+            GuiSlider((Rectangle){296, 680, WINDOW_WIDTH - 320, 16}, "", "", &sim_speed, 0, 500);
         }
 
         struct body preview_body = {
@@ -199,7 +166,7 @@ int main(void) {
             .radius = radius_input,
             .mass = atof(mass_input_buffer),
             .is_static = false,
-            .color = RED,
+            .color = color_select(color_input),
             .next = NULL
         };
         draw_body(&preview_body);

@@ -33,5 +33,6 @@ struct body {
 
 void draw_body(struct body *b);
 void calc_grav_force(struct body *b0, struct body *b1);
+Color color_select(const int color);
 
 #endif

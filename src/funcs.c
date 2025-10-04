@@ -32,3 +32,30 @@ void calc_grav_force(struct body *b0, struct body *b1) {
     b1->acceleration.x += -force.x / b1->mass;
     b1->acceleration.y += -force.y / b1->mass;
 }
+
+Color color_select(const int color) {
+    switch (color) {
+        case 0:
+            return GRAY;
+        case 1:
+            return GOLD;
+        case 2:
+            return ORANGE;
+        case 3:
+            return PINK;
+        case 4:
+            return MAROON;
+        case 5:
+            return LIME;
+        case 6:
+            return SKYBLUE;
+        case 7:
+            return VIOLET;
+        case 8:
+            return BEIGE;
+        case 9:
+            return BROWN;
+        default:
+            return RAYWHITE;
+    }
+}
