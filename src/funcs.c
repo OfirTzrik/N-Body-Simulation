@@ -1,6 +1,11 @@
 #include "../include/definitions.h"
 
-void draw_body(struct body *b) {
+/*
+Draw a circle from scratch (instead of using raylib's builtin DrawCircle method)
+
+@param b    Circle to draw
+*/
+void draw_body(const struct body *const b) {
     uint16_t resolution = 2.0 * PI * (b->radius);
 
     for (int i = 0; i < resolution; i++) {
@@ -12,19 +17,30 @@ void draw_body(struct body *b) {
     }
 }
 
-void calc_grav_force(struct body *b0, struct body *b1) {
-    struct vec2 dir_vector = {
+/*
+Calculate the gravitational force between 2 bodies
+
+@param *b0  First body
+@param *b1  Second body
+*/
+void calc_grav_force(struct body *const b0, struct body *const b1) {
+    struct vec2 dir_vec = {
         .x = (b1->center.x - b0->center.x) * METERS_PER_PIXEL,
         .y = (b1->center.y - b0->center.y) * METERS_PER_PIXEL
     };
-    double distance = sqrt(dir_vector.x * dir_vector.x + dir_vector.y * dir_vector.y + 0.01);
-    struct vec2 unit_vector = {
-        .x = dir_vector.x / distance,
-        .y = dir_vector.y / distance
+
+    // 0.001 to avoid division by zero in force_general
+    double dist = sqrt(dir_vec.x * dir_vec.x + dir_vec.y * dir_vec.y + 0.001);
+
+    struct vec2 norm_vec = {
+        .x = dir_vec.x / dist,
+        .y = dir_vec.y / dist
     };
+
+    double force_general = GRAV_CONSTANT * (b0->mass * b1->mass / (dist * dist));
     struct vec2 force = {
-        .x = GRAV_CONSTANT * (b0->mass * b1->mass / (distance * distance)) * unit_vector.x,
-        .y = GRAV_CONSTANT * (b0->mass * b1->mass / (distance * distance)) * unit_vector.y,
+        .x = force_general * norm_vec.x,
+        .y = force_general * norm_vec.y,
     };
 
     b0->acceleration.x += force.x / b0->mass;
@@ -33,6 +49,11 @@ void calc_grav_force(struct body *b0, struct body *b1) {
     b1->acceleration.y += -force.y / b1->mass;
 }
 
+/*
+Select the appropriate color based on the numberpassed from raygui's dropdown menu
+
+@param color    Number representing the color selected
+*/
 Color color_select(const int color) {
     switch (color) {
         case 0:

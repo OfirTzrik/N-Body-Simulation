@@ -3,6 +3,7 @@
         "definitions.h": "c",
         "math.h": "c",
         "raylib.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdbool.h": "c"
     }
 }

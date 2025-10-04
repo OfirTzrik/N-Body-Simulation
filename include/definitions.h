@@ -1,7 +1,6 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include <stdio.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -9,10 +8,12 @@
 
 #define RAYGUI_IMPLEMENTATION
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 1440
+#define WINDOW_HEIGHT 900
 #define GRAV_CONSTANT 6.6743e-11
 #define METERS_PER_PIXEL 1e6
+#define FONT_SIZE 16
+#define UI_OFFSET 8
 
 struct vec2 {
     double x;
@@ -31,8 +32,8 @@ struct body {
     struct body *next;
 };
 
-void draw_body(struct body *b);
-void calc_grav_force(struct body *b0, struct body *b1);
+void draw_body(const struct body *const b);
+void calc_grav_force(struct body *const b0, struct body *const b1);
 Color color_select(const int color);
 
 #endif

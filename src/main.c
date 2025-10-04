@@ -8,7 +8,7 @@ int main(void) {
     // Variables
     struct body *bodies = malloc(sizeof(struct body) * 4); // Initial size of 4
 
-    float sim_speed = 75;
+    float sim_speed = 0;
     float posx_input = 750;
     float posy_input = 340;
     float radius_input = 12;
@@ -21,10 +21,10 @@ int main(void) {
     bool color_is_open = false;
     bool remove_is_active = false;
 
-    char id_input_buffer[4] = "";
-    char velx_input_buffer[16] = "";
-    char vely_input_buffer[16] = "";
-    char mass_input_buffer[16] = "";
+    char id_input_buffer[4] = "0";
+    char velx_input_buffer[16] = "0";
+    char vely_input_buffer[16] = "0";
+    char mass_input_buffer[16] = "1";
     char remove_input_buffer[4] = "";
     
     size_t arr_cap = 4;
@@ -35,7 +35,7 @@ int main(void) {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "N-Body Simulation");
     GuiLoadStyle("assets/dark/style_dark.rgs");
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, FONT_SIZE);
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
@@ -85,76 +85,81 @@ int main(void) {
             }
         }
     
-        // Add new bodies user interface
+        // User interface
         {
-            GuiPanel((Rectangle){16, 16, 256, 360}, "Add new body");
+            // Add new bodies user interface
+            {
+                GuiPanel((Rectangle){UI_OFFSET, UI_OFFSET, 200, 288}, "Add new body");
 
-            GuiLabel((Rectangle){24, 48, 128, 16}, "Identifier:");
-            if (GuiTextBox((Rectangle){100, 48, 160, 16}, id_input_buffer, 4, id_is_active)) {
-                id_is_active = !id_is_active;
-            }
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 32, 128, 16}, "Identifier:");
+                if (GuiTextBox((Rectangle){104, UI_OFFSET + 32, 96, 16}, id_input_buffer, 4, id_is_active)) {
+                    id_is_active = !id_is_active;
+                }
 
-            GuiLabel((Rectangle){24, 80, 64, 16}, "Center X:");
-            GuiSlider((Rectangle){92, 80, 168, 16}, "", "", &posx_input, 300, 1240);
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 56, 128, 16}, "Center X:");
+                GuiSlider((Rectangle){104, UI_OFFSET + 56, 96, 16}, "", "", &posx_input, 268, 1400);
 
-            GuiLabel((Rectangle){24, 112, 64, 16}, "Center Y:");
-            GuiSlider((Rectangle){92, 112, 168, 16}, "", "", &posy_input, 40, 600);
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 80, 128, 16}, "Center Y:");
+                GuiSlider((Rectangle){104, UI_OFFSET + 80, 96, 16}, "", "", &posy_input, 40, 800);
 
-            GuiLabel((Rectangle){24, 144, 128, 16}, "Velocity X:");
-            if (GuiTextBox((Rectangle){100, 144, 160, 16}, velx_input_buffer, 16, velx_is_active)) {
-                velx_is_active = !velx_is_active;
-            }
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 104, 128, 16}, "Velocity X:");
+                if (GuiTextBox((Rectangle){104, UI_OFFSET + 104, 96, 16}, velx_input_buffer, 16, velx_is_active)) {
+                    velx_is_active = !velx_is_active;
+                }
 
-            GuiLabel((Rectangle){24, 176, 128, 16}, "Velocity Y:");
-            if (GuiTextBox((Rectangle){100, 176, 160, 16}, vely_input_buffer, 16, vely_is_active)) {
-                vely_is_active = !vely_is_active;
-            }
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 128, 128, 16}, "Velocity Y:");
+                if (GuiTextBox((Rectangle){104, UI_OFFSET + 128, 96, 16}, vely_input_buffer, 16, vely_is_active)) {
+                    vely_is_active = !vely_is_active;
+                }
 
-            GuiLabel((Rectangle){24, 208, 64, 16}, "Radius:");
-            GuiSlider((Rectangle){80, 208, 180, 16}, "", "", &radius_input, 4, 64);
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 152, 64, 16}, "Radius:");
+                GuiSlider((Rectangle){104, UI_OFFSET + 152, 96, 16}, "", "", &radius_input, 4, 64);
 
-            GuiLabel((Rectangle){24, 240, 64, 16}, "Mass:");
-            if (GuiTextBox((Rectangle){70, 240, 190, 16}, mass_input_buffer, 16, mass_is_active)) {
-                mass_is_active = !mass_is_active;
-            }
-            GuiLabel((Rectangle){24, 272, 64, 16}, "Is Static:");
-            GuiCheckBox((Rectangle){92, 272, 168, 16}, "", &is_static);
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 176, 64, 16}, "Mass:");
+                if (GuiTextBox((Rectangle){104, UI_OFFSET + 176, 96, 16}, mass_input_buffer, 16, mass_is_active)) {
+                    mass_is_active = !mass_is_active;
+                }
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 200, 64, 16}, "Is Static:");
+                GuiCheckBox((Rectangle){104, UI_OFFSET + 200, 96, 16}, "", &is_static);
 
-            GuiLabel((Rectangle){24, 304, 64, 16}, "Color:");
-            if (GuiDropdownBox((Rectangle){72, 304, 188, 16}, "Gray;Gold;Orange;Pink;Maroon;Lime;Sky blue;Violet;Beige;Brown", &color_input, color_is_open)) {
-                color_is_open = !color_is_open;
-            }
-            if (!color_is_open) {
-                if(GuiButton((Rectangle){24, 336, 240, 32}, "Add Body") && arr_size < arr_cap) {
-                    bodies[arr_size++] = (struct body) {
-                        .identifier = 15,
-                        .center = {posx_input, posy_input},
-                        .velocity = {atof(velx_input_buffer), atof(vely_input_buffer)},
-                        .acceleration = {0, 0},
-                        .radius = radius_input,
-                        .mass = atof(mass_input_buffer),
-                        .is_static = false,
-                        .color = color_select(color_input),
-                        .next = NULL
-                    };
+                GuiLabel((Rectangle){UI_OFFSET + 8, UI_OFFSET + 224, 64, 16}, "Color:");
+                if (GuiDropdownBox((Rectangle){104, UI_OFFSET + 224, 96, 16}, "Gray;Gold;Orange;Pink;Maroon;Lime;Sky blue;Violet;Beige;Brown", &color_input, color_is_open)) {
+                    color_is_open = !color_is_open;
+                }
+                if (!color_is_open) {
+                    if(GuiButton((Rectangle){UI_OFFSET + 8, UI_OFFSET + 248, 184, 32}, "Add Body") && arr_size < arr_cap) {
+                        bodies[arr_size++] = (struct body) {
+                            .identifier = 15,
+                            .center = {posx_input, posy_input},
+                            .velocity = {atof(velx_input_buffer), atof(vely_input_buffer)},
+                            .acceleration = {0, 0},
+                            .radius = radius_input,
+                            .mass = atof(mass_input_buffer),
+                            .is_static = false,
+                            .color = color_select(color_input),
+                            .next = NULL
+                        };
+                    }
                 }
             }
-        }
 
-        {
-            GuiPanel((Rectangle){16, 392, 256, 312}, "Bodies added");
+            // List of added body and removal
+            {
+                GuiPanel((Rectangle){UI_OFFSET, WINDOW_HEIGHT - 312 - UI_OFFSET, 200, 312}, "Bodies added");
 
-            GuiLabel((Rectangle){24, 424, 64, 16}, "Remove:");
-            if (GuiTextBox((Rectangle){84, 424, 128, 16}, remove_input_buffer, 4, remove_is_active)) {
-                remove_is_active = !remove_is_active;
+                GuiLabel((Rectangle){UI_OFFSET + 8, WINDOW_HEIGHT - 280 - UI_OFFSET, 128, 16}, "Remove:");
+                if (GuiTextBox((Rectangle){80, WINDOW_HEIGHT - 280 - UI_OFFSET, 64, 16}, remove_input_buffer, 4, remove_is_active)) {
+                    remove_is_active = !remove_is_active;
+                }
+                GuiButton((Rectangle){160, WINDOW_HEIGHT - 280 - UI_OFFSET, 40, 16}, "X");
             }
-            GuiButton((Rectangle){224, 424, 40, 16}, "X");
-        }
 
-        {
-            GuiPanel((Rectangle){288, 648, WINDOW_WIDTH - 304, 56}, "Simluation speed");
+            // Control simulation speed
+            {
+                GuiPanel((Rectangle){UI_OFFSET + 208, WINDOW_HEIGHT - 56 - UI_OFFSET, WINDOW_WIDTH - 216 - UI_OFFSET, 56}, "Simluation speed");
 
-            GuiSlider((Rectangle){296, 680, WINDOW_WIDTH - 320, 16}, "", "", &sim_speed, 0, 500);
+                GuiSlider((Rectangle){UI_OFFSET + 216, WINDOW_HEIGHT - 24 - UI_OFFSET, WINDOW_WIDTH - 232 - UI_OFFSET, 16}, "", "", &sim_speed, 0, 500);
+            }
         }
 
         struct body preview_body = {
