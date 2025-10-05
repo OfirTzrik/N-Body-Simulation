@@ -4,7 +4,7 @@ Using [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/
 
 ## Demo
 
-![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.mp4)
+![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.gif)
 
 ## Build
 Uses makefile.
@@ -19,7 +19,3 @@ gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -We
 - Switch to 3D?
 - Add grid (represent space) + warp?
 - Add trail and bloom
-
-## Current Progress
-
-![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/current_progress.png)
