@@ -4,7 +4,7 @@ Using [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/
 
 ## Demo
 
-![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.gif)
+![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.mp4)
 
 ## Build
 Uses makefile.
