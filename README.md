@@ -7,6 +7,7 @@ Using [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/
 ![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.gif)
 
 ## Build
+Uses makefile.
 ```bash
 gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -Wextra -pedantic -o build/main
 ```
