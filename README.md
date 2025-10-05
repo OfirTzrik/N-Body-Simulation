@@ -1,21 +1,35 @@
 # N-Body-Simulation
 
-Using [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/raygui) to simulate interaction between different bodies.
+Minimal N-body gravity simulator built with [raylib](https://www.raylib.com/) and [raygui](https://github.com/raysan5/raygui).
 
 ## Demo
 
 ![](https://github.com/OfirTzrik/N-Body-Simulation/blob/main/assets/demo.gif)
 
+## Features
+- Real-time Newtonian gravity
+- Multiple bodies with configurable mass and velocity
+- Simple UI via raygui for adding and removing bodies (WIP)
+
 ## Build
-Uses makefile.
+This repo uses a makefile.
+### Linux (Debian/Ubuntu)
 ```bash
-gcc src/main.c src/funcs.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wall -Wextra -pedantic -o build/main
+sudo apt-get update
+sudo apt-get install -y build-essential git libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
+```
+Follow "[Building raylib with CMake](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux#build-raylib-using-cmake)" and then:
+```bash
+git clone https://github.com/OfirTzrik/Spline.git
+cd Spline
+make
+
+./build/main
 ```
 
 ## Roadmap
-- Change code accordingly for N bodies (malloc) - In progress
-- Add user interface for adding new bodies (raygui) - In progress
-- Add body preview before adding it to the simulation - In progress
-- Switch to 3D?
-- Add grid (represent space) + warp?
-- Add trail and bloom
+- Dynamic allocation for true N bodies - WIP
+- User interface for removing bodies - WIP
+- Optional 3D mode
+- Grid (represent space) + warp
+- Trail and bloom
