@@ -1,6 +1,3 @@
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wunused-variable"
-
 #include "../include/definitions.h"
 #include "../include/raygui.h"
 
@@ -44,8 +41,8 @@ int main(void) {
 
         // Zero for next time step
         for (size_t i = 0; i < arr_size; i++) {
-            (*(bodies + i)).acceleration.x = 0;
-            (*(bodies + i)).acceleration.y = 0;
+            bodies[i].acceleration.x = 0;
+            bodies[i].acceleration.y = 0;
         }
 
         // Calculate gravitational force between every two bodies
@@ -54,17 +51,17 @@ int main(void) {
                 if (i == j) {
                     continue;
                 }
-                calc_grav_force((bodies + i), (bodies + j));
+                calc_grav_force(&bodies[i], &bodies[j]);
             }
         }
 
         // Update velocity with acceleration considering every two bodies
         for (size_t i = 0; i < arr_size; i++) {
-            if (!(*(bodies + i)).is_static) {
-                (*(bodies + i)).velocity.x += (*(bodies + i)).acceleration.x * dt;
-                (*(bodies + i)).velocity.y += (*(bodies + i)).acceleration.y * dt;
-                (*(bodies + i)).center.x += ((*(bodies + i)).velocity.x * dt) / METERS_PER_PIXEL;
-                (*(bodies + i)).center.y += ((*(bodies + i)).velocity.y * dt) / METERS_PER_PIXEL;
+            if (!bodies[i].is_static) {
+                bodies[i].velocity.x += bodies[i].acceleration.x * dt;
+                bodies[i].velocity.y += bodies[i].acceleration.y * dt;
+                bodies[i].center.x += bodies[i].velocity.x * dt / METERS_PER_PIXEL;
+                bodies[i].center.y += bodies[i].velocity.y * dt / METERS_PER_PIXEL;
             }
         }
 
@@ -74,17 +71,17 @@ int main(void) {
         
         // Draw bodies
         for (size_t i = 0; i < arr_size; i++) {
-            draw_body(bodies + i);
+            draw_body(&bodies[i]);
         }
 
         // Draw velocity vector
         for(size_t i = 0; i < arr_size; i++) {
-            if (!(*(bodies + i)).is_static) {
+            if (!bodies[i].is_static) {
                 DrawLine(
-                    (*(bodies + i)).center.x,
-                    (*(bodies + i)).center.y,
-                    (*(bodies + i)).center.x + (*(bodies + i)).velocity.x / 10,
-                    (*(bodies + i)).center.y + (*(bodies + i)).velocity.y / 10,
+                    bodies[i].center.x,
+                    bodies[i].center.y,
+                    bodies[i].center.x + bodies[i].velocity.x / 10,
+                    bodies[i].center.y + bodies[i].velocity.y / 10,
                     RED
                 );
             }
@@ -141,8 +138,7 @@ int main(void) {
                             .radius = radius_input,
                             .mass = atof(mass_input_buffer),
                             .is_static = is_static,
-                            .color = color_select(color_input),
-                            .next = NULL
+                            .color = color_select(color_input)
                         };
                     }
                 }
@@ -163,7 +159,7 @@ int main(void) {
             {
                 GuiPanel((Rectangle){UI_OFFSET + 208, WINDOW_HEIGHT - 56 - UI_OFFSET, WINDOW_WIDTH - 216 - UI_OFFSET, 56}, "Simluation speed");
 
-                GuiSlider((Rectangle){UI_OFFSET + 216, WINDOW_HEIGHT - 24 - UI_OFFSET, WINDOW_WIDTH - 232 - UI_OFFSET, 16}, "", "", &sim_speed, 0, 10000);
+                GuiSlider((Rectangle){UI_OFFSET + 216, WINDOW_HEIGHT - 24 - UI_OFFSET, WINDOW_WIDTH - 232 - UI_OFFSET, 16}, "", "", &sim_speed, 0, 50000);
             }
         }
 
@@ -176,8 +172,7 @@ int main(void) {
             .radius = radius_input,
             .mass = atof(mass_input_buffer),
             .is_static = false,
-            .color = color_select(color_input),
-            .next = NULL
+            .color = color_select(color_input)
         };
         draw_body(&preview_body);
 

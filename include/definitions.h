@@ -1,6 +1,10 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+// For handling raygui warnings
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 #include <math.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -29,7 +33,6 @@ struct body {
     double mass;
     bool is_static;
     Color color;
-    struct body *next;
 };
 
 void draw_body(const struct body *const b);
