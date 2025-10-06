@@ -1,6 +1,6 @@
 # Makefile
 CC      := gcc
-CFLAGS  := -Wall -Wextra -pedantic -g -O0
+CFLAGS  := -Wall -Wextra -Werror -pedantic -g -O0
 LDFLAGS :=
 LDLIBS  := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
