@@ -6,6 +6,10 @@ Draw a circle from scratch (instead of using raylib's builtin DrawCircle method)
 @param b    Circle to draw
 */
 void draw_body(const struct body *const b) {
+    if (b == NULL) {
+        return;
+    }
+
     uint16_t resolution = 2.0 * PI * (b->radius);
 
     for (int i = 0; i < resolution; i++) {
@@ -24,6 +28,10 @@ Calculate the gravitational force between 2 bodies
 @param *b1  Second body
 */
 void calc_grav_force(struct body *const b0, struct body *const b1) {
+    if (b0 == NULL || b1 == NULL) {
+        return;
+    }
+
     struct vec2 dir_vec = {
         .x = (b1->center.x - b0->center.x) * METERS_PER_PIXEL,
         .y = (b1->center.y - b0->center.y) * METERS_PER_PIXEL

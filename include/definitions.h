@@ -5,6 +5,7 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wunused-variable"
 
+#include <stdio.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdbool.h>
