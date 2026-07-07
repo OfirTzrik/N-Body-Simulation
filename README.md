@@ -28,8 +28,7 @@ make
 ```
 
 ## Roadmap
-- Dynamic allocation for true N bodies - WIP
-- User interface for removing bodies - WIP
-- Optional 3D mode
+- Rewrite in C++
+- Barnes Hut (for O(nlogn) instead of O(n^2))
 - Grid (represent space) + warp
 - Trail and bloom
