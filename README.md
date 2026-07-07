@@ -20,7 +20,7 @@ sudo apt-get install -y build-essential git libasound2-dev libx11-dev libxrandr-
 ```
 Follow "[Building raylib with CMake](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux#build-raylib-using-cmake)" and then:
 ```bash
-git clone https://github.com/OfirTzrik/Spline.git
+git clone https://github.com/OfirTzrik/N-Body-Simulation.git
 cd Spline
 make
 
