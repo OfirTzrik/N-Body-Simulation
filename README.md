@@ -28,7 +28,7 @@ make
 ```
 
 ## Roadmap
-- Rewrite in C++
+- Rewrite in C++ with ImGui
 - Barnes Hut (for O(nlogn) instead of O(n^2))
 - Grid (represent space) + warp
 - Trail and bloom
